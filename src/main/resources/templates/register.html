@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — PremiumWeb</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0d0d0d;
+            --paper: #f5f0e8;
+            --cream: #ede8dc;
+            --accent: #c84b2f;
+            --accent2: #2563eb;
+            --muted: #7a7265;
+            --line: rgba(13,13,13,0.12);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* LEFT PANEL */
+        .left-panel {
+            background: var(--ink);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 56px 64px;
+            position: relative;
+            overflow: hidden;
+        }
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -80px; left: -80px;
+            width: 360px; height: 360px;
+            border-radius: 50%;
+            background: var(--accent2);
+            opacity: 0.1;
+        }
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -100px; right: -100px;
+            width: 350px; height: 350px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.1;
+        }
+        .brand {
+            font-family: 'DM Serif Display', serif;
+            font-size: 22px;
+            color: var(--paper);
+            letter-spacing: -0.3px;
+            position: relative; z-index: 1;
+        }
+        .brand span { color: var(--accent); }
+        .left-content { position: relative; z-index: 1; }
+        .left-content h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 52px;
+            line-height: 1.1;
+            color: var(--paper);
+            margin-bottom: 20px;
+        }
+        .left-content h2 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+        .left-content p {
+            font-size: 16px;
+            color: rgba(245,240,232,0.55);
+            line-height: 1.7;
+            max-width: 300px;
+        }
+        .decorative-line {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .decorative-line span {
+            height: 1px; width: 40px;
+            background: var(--accent);
+        }
+        .decorative-line p {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(245,240,232,0.4);
+        }
+
+        /* Perks list */
+        .perks { margin-top: 36px; display: flex; flex-direction: column; gap: 14px; }
+        .perk {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(245,240,232,0.5);
+            font-size: 14px;
+        }
+        .perk-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* RIGHT PANEL */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 64px 72px;
+            animation: fadeUp 0.7s ease forwards;
+            overflow-y: auto;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-header { margin-bottom: 40px; }
+        .form-header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 36px;
+            color: var(--ink);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .form-header p {
+            font-size: 15px;
+            color: var(--muted);
+            font-weight: 300;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .form-group { margin-bottom: 28px; }
+        .form-row .form-group { margin-bottom: 0; }
+
+        label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        input[type="text"], input[type="password"], textarea {
+            width: 100%;
+            padding: 16px 0;
+            border: none;
+            border-bottom: 1.5px solid var(--line);
+            background: transparent;
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 17px;
+            font-weight: 300;
+            transition: border-color 0.3s ease;
+        }
+        textarea {
+            resize: none;
+            min-height: 80px;
+            border-bottom: 1.5px solid var(--line);
+            padding-top: 8px;
+        }
+        input::placeholder, textarea::placeholder { color: rgba(13,13,13,0.25); }
+        input:focus, textarea:focus { outline: none; border-bottom-color: var(--ink); }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px 32px;
+            background: var(--ink);
+            color: var(--paper);
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            margin-top: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+        .submit-btn::after {
+            content: '→';
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s, right 0.3s;
+        }
+        .submit-btn:hover { background: var(--accent); }
+        .submit-btn:hover::after { opacity: 1; right: 20px; }
+
+        .footer-link {
+            margin-top: 28px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+        .footer-link a {
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--ink);
+            padding-bottom: 1px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .footer-link a:hover { color: var(--accent); border-color: var(--accent); }
+
+        @media (max-width: 768px) {
+            body { grid-template-columns: 1fr; }
+            .left-panel { display: none; }
+            .right-panel { padding: 48px 32px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="left-panel">
+        <div class="brand">Premium<span>.</span></div>
+        <div class="left-content">
+            <div class="decorative-line">
+                <span></span>
+                <p>New account</p>
+            </div>
+            <h2>Join the<br><em>premium</em><br>experience.</h2>
+            <p>Create your account and unlock everything we have to offer.</p>
+            <div class="perks">
+                <div class="perk"><div class="perk-dot"></div>Personalized dashboard</div>
+                <div class="perk"><div class="perk-dot"></div>Secure & private</div>
+                <div class="perk"><div class="perk-dot"></div>Free to get started</div>
+            </div>
+        </div>
+        <div style="color: rgba(245,240,232,0.2); font-size: 12px; letter-spacing: 1px; position: relative; z-index: 1;">© 2025 PREMIUM WEB</div>
+    </div>
+
+    <div class="right-panel">
+        <div class="form-header">
+            <h1>Create account</h1>
+            <p>Fill in your details to get started</p>
+        </div>
+
+        <form th:action="@{/register}" th:object="${request}" method="post">
+            <div class="form-row" style="margin-bottom: 28px;">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" th:field="*{username}" required placeholder="johndoe">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" th:field="*{password}" required placeholder="••••••••">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nama">Full Name</label>
+                <input type="text" id="nama" th:field="*{nama}" required placeholder="John Doe">
+            </div>
+
+            <div class="form-group">
+                <label for="alamat">Address</label>
+                <textarea id="alamat" th:field="*{alamat}" required placeholder="Your address here..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Create Account</button>
+        </form>
+
+        <div class="footer-link">
+            Already have an account? <a th:href="@{/login}">Sign in</a>
+        </div>
+    </div>
+</body>
+</html>
